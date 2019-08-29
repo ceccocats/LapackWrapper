@@ -1,0 +1,31 @@
+require "rake"
+require "./common.rb"
+
+task :default => [:install_osx]
+
+desc "install 3rd parties for OSX"
+task :install_osx do
+end
+
+desc "clean 3rd parties for OSX"
+task :clean_osx do
+end
+
+desc "install 3rd parties for LINUX"
+task :install_linux do
+end
+
+desc "clean 3rd parties for LINUX"
+task :clean_linux do
+end
+
+desc "install 3rd parties for WINDOWS"
+task :install_win do |t, args|
+  FileUtils.cd "OpenBlas"
+  sh "rake install_win"
+  FileUtils.cd ".."
+end
+
+desc "clean 3rd parties for WINDOWS"
+task :clean_win do |t, args|
+end

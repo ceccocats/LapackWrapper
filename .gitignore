@@ -1,0 +1,14 @@
+bin
+build
+*.o
+DerivedData
+lib
+src/.vscode
+src/lapack_wrapper/code/.vscode
+src/HSL_private
+docs
+HSL_private
+src/lapack_wrapper/.vscode
+lib3rd/dll
+lib3rd/include
+third_parties/OpenBlas/OpenBlas
