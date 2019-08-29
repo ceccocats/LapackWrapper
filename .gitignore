@@ -11,4 +11,5 @@ HSL_private
 src/lapack_wrapper/.vscode
 lib3rd/dll
 lib3rd/include
-third_parties/OpenBlas/OpenBlas
+.lapack_wrapper_config
+lapack_wrapper_config.hh

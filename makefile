@@ -250,14 +250,18 @@ install_local:
 	$(MKDIR) ./lib
 	$(MKDIR) ./lib/include
 	$(MKDIR) ./lib/include/lapack_wrapper
+	$(MKDIR) ./lib/include/lapack_wrapper/code
+	$(MKDIR) ./lib/include/lapack_wrapper/code++
 	$(MKDIR) ./lib/include/HSL
 	$(MKDIR) ./lib/include/sparse_tool
 	$(MKDIR) ./lib/include/zstream
-	cp -f -P src/lapack_wrapper/*.h* ./lib/include/lapack_wrapper
-	cp -f -P src/HSL/*.h* ./lib/include/HSL
-	cp -rf src/sparse_tool/* ./lib/include/sparse_tool
-	cp -rf src/zstream/*.h* ./lib/include/zstream
-	cp -rf lib3rd/include/*  ./lib/include
+	cp -f -P src/lapack_wrapper/*.h*        ./lib/include/lapack_wrapper
+	cp -f -P src/lapack_wrapper/code/*.h*   ./lib/include/lapack_wrapper/code
+	cp -f -P src/lapack_wrapper/code++/*.h* ./lib/include/lapack_wrapper/code++
+	cp -f -P src/HSL/*.h*                   ./lib/include/HSL
+	cp -rf src/sparse_tool/*                ./lib/include/sparse_tool
+	cp -rf src/zstream/*.h*                 ./lib/include/zstream
+	cp -rf lib3rd/include/*                 ./lib/include
 
 install: lib/$(LIB_LAPACK_WRAPPER)
 	$(MKDIR) $(PREFIX)/include
