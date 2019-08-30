@@ -10,13 +10,26 @@
   end
 end
 
+if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil then
+  #linux
+  task :default => [:install_linux]
+elsif (/darwin/ =~ RUBY_PLATFORM) != nil then
+  #osx
+  task :default => [:install_osx]
+else
+  #windows
+  task :default => [:install_windows]
+end
+
 #
 # https://stackoverflow.com/questions/6934185/ruby-net-http-following-redirects/6934503
 #
-def url_resolve( uri_str,
-                 agent        = 'curl/7.43.0',
-                 max_attempts = 10,
-                 timeout      = 10 )
+def url_resolve(
+  uri_str,
+  agent        = 'curl/7.43.0',
+  max_attempts = 10,
+  timeout      = 10
+)
   attempts = 0
   cookie   = nil
 

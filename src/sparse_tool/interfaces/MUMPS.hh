@@ -15,7 +15,7 @@
 #ifndef SPARSETOOL_MUMPS_HH
 #define SPARSETOOL_MUMPS_HH
 
-#include "sparse_tool.hh"
+#include "../sparse_tool.hh"
 
 #include <smumps_c.h>
 #include <dmumps_c.h>
@@ -121,9 +121,9 @@ namespace SparseTool {
       numRows = Mat.numRows();
       nnz     = Mat.nnz();
 
-      Ivec . resize( nnz );
-      Jvec . resize( nnz );
-      Avec . resize( nnz );
+      Ivec.resize( nnz );
+      Jvec.resize( nnz );
+      Avec.resize( nnz );
       indexType ii = 0;
       for ( Mat.Begin(); Mat.End(); Mat.Next(), ++ii ) {
         Ivec(ii) = Mat.row()    + 1;

@@ -15,7 +15,7 @@
 #ifndef SPARSETOOL_PARDISO_HH
 #define SPARSETOOL_PARDISO_HH
 
-#include "sparse_tool.hh"
+#include "../sparse_tool.hh"
 #include <numeric>
 #include <algorithm>
 #include <complex>

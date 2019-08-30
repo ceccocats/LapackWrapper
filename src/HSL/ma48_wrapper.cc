@@ -129,7 +129,7 @@ namespace lapack_wrapper {
     int N_RC_Max = std::max(this->numRows, this->numCols);
     int N_keep   = this->numRows + 5 * this->numCols + 4 * (this->numCols / ihlp) + 7;
     int N_iw     = this->numRows * 6 + this->numCols * 3;
-    int N_w      = 3 * N_RC_Max + N_RC_Max;
+    int N_w      = 4 * N_RC_Max;
     this->keep.resize(size_t(N_keep));
     this->iw.resize(size_t(N_iw));
     this->w.resize(size_t(N_w));
@@ -176,12 +176,16 @@ namespace lapack_wrapper {
       this->irn.resize(size_t(this->la));
       this->jcn.resize(size_t(this->la));
       std::copy(ArrayA, ArrayA+this->nnz, this->a.begin());
-      std::copy(this->i_Row_stored.begin(),
-                this->i_Row_stored.end(),
-                this->irn.begin());
-      std::copy(this->j_Col_stored.begin(),
-                this->j_Col_stored.end(),
-                this->jcn.begin());
+      std::copy(
+        this->i_Row_stored.begin(),
+        this->i_Row_stored.end(),
+        this->irn.begin()
+      );
+      std::copy(
+        this->j_Col_stored.begin(),
+        this->j_Col_stored.end(),
+        this->jcn.begin()
+      );
 
       HSL::ma48a<real>(
         this->numRows,

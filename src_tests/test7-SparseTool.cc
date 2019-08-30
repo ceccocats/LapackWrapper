@@ -25,8 +25,11 @@
 
 #include <lapack_wrapper/TicToc.hh>
 
-//#include <sparse_tool/interfaces/MA41.hh>
+#include <sparse_tool/interfaces/MA41.hh>
+#include <sparse_tool/interfaces/MA48.hh>
+#include <sparse_tool/interfaces/SuperLU.hh>
 #include <sparse_tool/interfaces/mkl_pardiso.hh>
+#include <sparse_tool/interfaces/UMF.hh>
 
 #include <fstream>
 #include <iostream>
@@ -70,16 +73,19 @@ testSparseTool( istream & mm_file ) {
   rhs   . resize( A.numRows() );
   resid . resize( A.numRows() );
 
+  exact = 1;
+  rhs   = A * exact;
+
+#if 1
+
+  x = 0;
   cout << "factorize (ildu) ..." << flush;
   tm.tic();
   ildu.build(A);
   tm.toc();
   cout << " " << tm.elapsed_ms() << "[ms] done\n"  << flush;
 
-  exact = 1;
-  rhs   = A * exact;
-
-  cout << "solve (ilu) ... " << flush;
+  cout << "solve (bicgstab) ... " << flush;
   tm.tic();
 
   double   epsi       = 1e-15;
@@ -90,60 +96,109 @@ testSparseTool( istream & mm_file ) {
   //double   res = gmres( A, rhs, x, ildu, epsi, maxSubIter, maxIter, iter, &cout );
 
   tm.toc();
-  cout << " " << tm.elapsed_ms()  << "[ms] done\n"  << flush;
+  cout << " " << tm.elapsed_ms()  << "[ms] done\n" << flush;
   
   resid = rhs - A*x;
 
   cout
-    << "\nerror    (ildu) = " << dist2( x, exact )
-    << "\nresidual (ildu) = " << normi( resid )
-    << "\n";
-
-#if 0
-  MA41<double> ma41;
-  ma41.load( A );
-  ma41.solve( rhs, x );
-
-  tm.toc();
-  cout << " " << tm.elapsed_ms()  << "[ms] done\n"  << flush;
-
-  resid = rhs - A*x;
-
-  cout
-    << "\nerror    (ildu) = " << dist2( x, exact )
-    << "\nresidual (ildu) = " << normi( resid )
-    << "\n";
+    << "error    (bicgstab) = " << dist2( x, exact ) << '\n'
+    << "residual (bicgstab) = " << normi( resid )    << '\n';
 #endif
 
 #if 1
+  x = 0;
+  MA41<double> ma41;
+  ma41.load( A );
+  cout << "\nsolve    (MA41) ... " << flush;
+  tm.tic();
+  ma41.solve( rhs, x );
+  tm.toc();
+  cout << " " << tm.elapsed_ms()  << "[ms] done\n" << flush;
+
+  resid = rhs - A*x;
+  cout
+    << "error    (MA41) = " << dist2( x, exact ) << '\n'
+    << "residual (MA41) = " << normi( resid )    << '\n';
+#endif
+
+#if 0
+  x = 0;
+  MA48<double> ma48;
+  ma48.load( A );
+  cout << "\nsolve    (MA48) ... " << flush;
+  tm.tic();
+  ma48.solve( rhs, x );
+  tm.toc();
+  cout << " " << tm.elapsed_ms()  << "[ms] done\n" << flush;
+
+  resid = rhs - A*x;
+  cout
+    << "error    (MA48) = " << dist2( x, exact ) << '\n'
+    << "residual (MA48) = " << normi( resid )    << '\n';
+#endif
+
+#if 1
+  x = 0;
   mkl_PardisoRealU pardiso;
   pardiso.load( A );
   //pardiso.check_matrix();
   pardiso.factorize();
+  cout << "\nsolve    (pardiso) ... " << flush;
+  tm.tic();
   pardiso.solve( rhs, x );
-
   tm.toc();
-  cout << " " << tm.elapsed_ms()  << "[ms] done\n"  << flush;
+  cout << " " << tm.elapsed_ms()  << "[ms] done\n" << flush;
 
   resid = rhs - A*x;
-
   cout
-    << "\nerror    (pardiso) = " << dist2( x, exact )
-    << "\nresidual (pardiso) = " << normi( resid )
-    << "\n";
+    << "error    (pardiso) = " << dist2( x, exact ) << '\n'
+    << "residual (pardiso) = " << normi( resid )    << '\n';
+#endif
+
+#if 1
+  x = 0;
+  SuperLU<double> superlu;
+  superlu.load( A );
+  cout << "\nsolve    (superlu) ... " << flush;
+  tm.tic();
+  superlu.solve( rhs, x );
+  tm.toc();
+  cout << " " << tm.elapsed_ms()  << "[ms] done\n" << flush;
+
+  resid = rhs - A*x;
+  cout
+    << "error    (superlu) = " << dist2( x, exact ) << '\n'
+    << "residual (superlu) = " << normi( resid )    << '\n';
+#endif
+
+#if 1
+  x = 0;
+  UMF<double> umf;
+  umf.load( A );
+  cout << "\nsolve    (UMF) ... " << flush;
+  tm.tic();
+  umf.solve( rhs, x );
+  tm.toc();
+  cout << " " << tm.elapsed_ms()  << "[ms] done\n" << flush;
+
+  resid = rhs - A*x;
+  cout
+    << "error    (UMF) = " << dist2( x, exact ) << '\n'
+    << "residual (UMF) = " << normi( resid )    << '\n';
 #endif
 
   resid = rhs - A*exact;
-
   cout
-    << "\nresidual (exact) = " << normi( resid )
-    << "\n";
-
+    << "\n\nresidual (exact) = " << normi( resid )
+    << "\n\n";
 }
 
 int
 main() {
   char const * rMatrix[] = {
+    "af23560.mtx.gz", // MA48 fails
+    //"memplus.mtx.gz", //
+    //"fidap005.mtx.gz",
     //"ASIC_100k.mtx.gz",           // 99340 (ok) 200 iter
     //"ASIC_320ks.mtx.gz",          // 321671 (ok) 200 iter
     //"ASIC_680k.mtx.gz",           // 682862 (ok) 200 iter
@@ -155,7 +210,7 @@ main() {
     //"CO.mtx.gz",                  // 221119 (ok) 10 iter
     //"dwg961b.mtx.gz",             // 961 (ok) 14
     //"ecology2.mtx.gz",            // 999999 (ok) 53 iter
-    "fidapm05.mtx.gz",            // 42 (no)
+    //"fidapm05.mtx.gz",            // 42 (no)
     //"memchip.mtx.gz",             // 2707524 (ok) 200 iter 
     //"hor__131.mtx.gz",            // 434 (ok) 200 iter
     //"ldoor.mtx.gz",               // 952203 (ok) 11 iter 

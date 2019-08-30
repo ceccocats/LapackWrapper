@@ -15,7 +15,7 @@
 #ifndef SPARSETOOL_MA41_HH
 #define SPARSETOOL_MA41_HH
 
-#include "sparse_tool.hh"
+#include "../sparse_tool.hh"
 #include "../../HSL/hsl.h"
 
 namespace SparseTool {
@@ -142,71 +142,63 @@ namespace SparseTool {
     // private functionalities
     void
     load_matrix( integer const nr ) {
-      if ( verbose )
-        std::cout << "ma41::load_matrix(...)\n";
-      N  = nr;
-      NE = integer(A.size());
+      if ( this->verbose ) std::cout << "ma41::load_matrix(...)\n";
+      this->N  = nr;
+      this->NE = integer(this->A.size());
 
-      COLSCA . resize(N);
-      ROWSCA . resize(N);
-      IS     . resize(2 * NE + 11 * N + 1);
-      S      . resize(2 * NE + 11 * N + 1);
+      this->COLSCA . resize(this->N);
+      this->ROWSCA . resize(this->N);
+      this->IS     . resize(2 * this->NE + 11 * this->N + 1);
+      this->S      . resize(2 * this->NE + 11 * this->N + 1);
 
-      fill(COLSCA . begin(), COLSCA . end(), 0 );
-      fill(ROWSCA . begin(), ROWSCA . end(), 0 );
-      fill(IS     . begin(), IS     . end(), 0 );
-      fill(S      . begin(), S      . end(), 0 );
+      fill(this->COLSCA.begin(), this->COLSCA.end(), 0 );
+      fill(this->ROWSCA.begin(), this->ROWSCA.end(), 0 );
+      fill(this->IS.begin(),     this->IS.end(),     0 );
+      fill(this->S.begin(),      this->S.end(),      0 );
 
       // set pars
-      HSL::ma41i<real_type>(CNTL, ICNTL, KEEP);
+      HSL::ma41i<real_type>(this->CNTL, this->ICNTL, this->KEEP);
 
-      if ( verbose )
-        std::cout << "done\n";
+      if ( this->verbose ) std::cout << "done\n";
     }
 
     void
     symbfac() {
-      if ( verbose )
-        std::cout << "ma41::symbfac() perform analisys\n";
+      if ( this->verbose ) std::cout << "ma41::symbfac() perform analisys\n";
 
       // analysis phase
       vector<integer> tmpIS(2 * NE + 12 * N + 1);
-      integer JOB = ANALISYS;
       HSL::ma41a<T>(
-        JOB, N, NE, &IRN.front(), &JCN.front(), &A.front(),
-        nullptr, &COLSCA.front(), &ROWSCA.front(), KEEP,
+        ANALISYS, this->N, this->NE,
+        &this->IRN.front(), &this->JCN.front(), &this->A.front(),
+        nullptr, &this->COLSCA.front(), &this->ROWSCA.front(), this->KEEP,
         &tmpIS.front(), integer(tmpIS.size()),
-        &S.front(), integer(S.size()),
-        CNTL, ICNTL, INFO, RINFO
+        &this->S.front(), integer(this->S.size()),
+        this->CNTL, this->ICNTL, this->INFO, this->RINFO
       );
 
-      if ( verbose ) msg_error();
+      if ( this->verbose ) msg_error();
 
-      unsigned mem = 10*INFO[6]*sizeof(integer) + 10*INFO[7]*sizeof(T);
-      if ( mem > 4*1E9 ) {
-        std::cerr << "out of memory mem = " << mem << '\n';
-        exit(1);
-      }
-
-      IS . resize(10*INFO[6]);
-      S  . resize(10*INFO[7]);
+      IS.resize(10*INFO[6]);
+      S.resize(10*INFO[7]);
 
       copy( tmpIS.begin(), tmpIS.end(), IS.begin() );
 
-      if ( verbose )
+      if ( this->verbose )
         std::cout << "ma41_wrapper::symbfac() do factorization\n";
 
       // factorization phase
       // -------------------
-      JOB = FACTORIZATION;
       HSL::ma41a<real_type>(
-        JOB, N, NE, &IRN.front(), &JCN.front(), &A.front(),
-        nullptr, &COLSCA.front(), &ROWSCA.front(), KEEP,
-        &IS.front(), integer(IS.size()), &S.front(), integer(S.size()),
-        CNTL, ICNTL, INFO, RINFO
+        FACTORIZATION, this->N, this->NE,
+        &this->IRN.front(), &this->JCN.front(), &this->A.front(),
+        nullptr, &this->COLSCA.front(), &this->ROWSCA.front(), this->KEEP,
+        &this->IS.front(), integer(this->IS.size()),
+        &this->S.front(), integer(this->S.size()),
+        this->CNTL, this->ICNTL, this->INFO, this->RINFO
       );
 
-      if ( verbose ) {
+      if ( this->verbose ) {
         msg_info();
         msg_error();
         std::cout << "done\n";
@@ -221,9 +213,9 @@ namespace SparseTool {
 
     void
     init(void) {
-      IRN . clear();
-      JCN . clear();
-      A   . clear();
+      this->IRN.clear();
+      this->JCN.clear();
+      this->A.clear();
     }
 
     void
@@ -236,9 +228,9 @@ namespace SparseTool {
         i >= 0 && i < this->N && j >= 0 && j < this->N,
         "MA41::insert( " << i << ", " << j << ", a ) out of matrix"
       )
-      IRN . push_back(i+1);
-      JCN . push_back(j+1);
-      A   . push_back(a);
+      this->IRN.push_back(i+1);
+      this->JCN.push_back(j+1);
+      this->A.push_back(a);
     }
 
     void
@@ -248,29 +240,13 @@ namespace SparseTool {
       symbfac();
     }
 
-    void
-    solve( real_type RHS[] ) {
-      integer JOB = SOLVE;
-      HSL::ma41a<real_type>(
-        JOB, N, NE, &IRN.front(), &JCN.front(), &A.front(),
-        RHS, &COLSCA.front(), &ROWSCA.front(), KEEP,
-        &IS.front(), integer(IS.size()), &S.front(), integer(S.size()),
-        CNTL, ICNTL, INFO, RINFO
-      );
-
-      if ( verbose ) {
-        msg_infor();
-        msg_error();
-      }
-    }
-
     template <typename MT>
     int
     load( Sparse<T,MT> const & Mat ) {
       this->init();
-      IRN . reserve( Mat.nnz() );
-      JCN . reserve( Mat.nnz() );
-      A   . reserve( Mat.nnz() );
+      this->IRN.reserve( Mat.nnz() );
+      this->JCN.reserve( Mat.nnz() );
+      this->A.reserve( Mat.nnz() );
       this->N = Mat.numRows();
       for ( Mat.Begin(); Mat.End(); Mat.Next() )
         this->insert( Mat.row(), Mat.column(), Mat.value() );
@@ -279,14 +255,37 @@ namespace SparseTool {
     }
 
     int
+    solve( real_type RHS[], bool transpose = false ) {
+      this->ICNTL[8] = transpose ? 0 : 1;
+      HSL::ma41a<real_type>(
+        SOLVE, this->N, this->NE,
+        &this->IRN.front(), &this->JCN.front(), &this->A.front(),
+        RHS, &this->COLSCA.front(), &this->ROWSCA.front(), this->KEEP,
+        &this->IS.front(), integer(this->IS.size()),
+        &this->S.front(), integer(this->S.size()),
+        this->CNTL, this->ICNTL, this->INFO, this->RINFO
+      );
+
+      if ( this->verbose ) {
+        msg_infor();
+        msg_error();
+      }
+      return this->INFO[0];
+    }
+
+    int
+    solve( T const b[], T x[], bool transpose = false ) {
+      std::copy( b, b+this->N, x );
+      return this->solve( x, transpose );
+    }
+
+    int
     solve(
       Vector<T> const & b,
       Vector<T>       & x,
       bool transpose = false
     ) {
-      x = b;
-      this->solve( &x.front() );
-      return 0;
+      return this->solve( &b.front(), &x.front(), transpose  );
     }
 
   };

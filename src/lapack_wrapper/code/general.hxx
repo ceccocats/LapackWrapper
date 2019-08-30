@@ -5995,7 +5995,7 @@ namespace lapack_wrapper {
     #elif defined(LAPACK_WRAPPER_USE_ACCELERATE)
     integer lw = std::max(3*n,std::max(m,p))+n;
     if ( lwork < 0 ) {
-      work[0] = real(lw);
+      work[0] = doublereal(lw);
     } else {
       LAPACK_WRAPPER_ASSERT(
         lwork >= lw, "ggsvd, lwork = " << lwork << " must be >= " << lw

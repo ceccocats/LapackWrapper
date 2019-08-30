@@ -527,40 +527,40 @@ namespace HSL {
   template <typename T>
   void
   ma48a(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & nz,
-    integer const & job,
-    integer const & la,
-    T               a[],
-    integer         irn[],
-    integer         jcn[],
-    integer         keep[],
-    T       const   cntl[10],
-    integer const   icntl[20],
-    integer         iw[],
-    integer         info[20],
-    T               rinfo[10]
+    integer       nrow,
+    integer       ncol,
+    integer       nz,
+    integer       job,
+    integer       la,
+    T             a[],
+    integer       irn[],
+    integer       jcn[],
+    integer       keep[],
+    T       const cntl[10],
+    integer const icntl[20],
+    integer       iw[],
+    integer       info[20],
+    T             rinfo[10]
   );
 
   template <>
   inline
   void
   ma48a<single>(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & nz,
-    integer const & job,
-    integer const & la,
-    single          a[],
-    integer         irn[],
-    integer         jcn[],
-    integer         keep[],
-    single  const   cntl[10],
-    integer const   icntl[20],
-    integer         iw[],
-    integer         info[20],
-    single          rinfo[10]
+    integer       nrow,
+    integer       ncol,
+    integer       nz,
+    integer       job,
+    integer       la,
+    single        a[],
+    integer       irn[],
+    integer       jcn[],
+    integer       keep[],
+    single  const cntl[10],
+    integer const icntl[20],
+    integer       iw[],
+    integer       info[20],
+    single        rinfo[10]
   ) {
     HSL_F77NAME(ma48a)(
       &nrow, &ncol, &nz, &job, &la,
@@ -572,20 +572,20 @@ namespace HSL {
   inline
   void
   ma48a<real>(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & nz,
-    integer const & job,
-    integer const & la,
-    real            a[],
-    integer         irn[],
-    integer         jcn[],
-    integer         keep[],
-    real    const   cntl[10],
-    integer const   icntl[20],
-    integer         iw[],
-    integer         info[20],
-    real            rinfo[10]
+    integer       nrow,
+    integer       ncol,
+    integer       nz,
+    integer       job,
+    integer       la,
+    real          a[],
+    integer       irn[],
+    integer       jcn[],
+    integer       keep[],
+    real    const cntl[10],
+    integer const icntl[20],
+    integer       iw[],
+    integer       info[20],
+    real          rinfo[10]
   ) {
     HSL_F77NAME(ma48ad)(
       &nrow, &ncol, &nz, &job, &la,
@@ -596,42 +596,42 @@ namespace HSL {
   template <typename T>
   void
   ma48b(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & nz,
-    integer const & job,
-    integer const & la,
-    T                a[],
-    integer         irn[],
-    integer         jcn[],
-    integer const   keep[],
-    T       const   cntl[10],
-    integer const   icntl[20],
-    T               w[],
-    integer         iw[],
-    integer         info[20],
-    T               rinfo[10]
+    integer       nrow,
+    integer       ncol,
+    integer       nz,
+    integer       job,
+    integer       la,
+    T              a[],
+    integer       irn[],
+    integer       jcn[],
+    integer const keep[],
+    T       const cntl[10],
+    integer const icntl[20],
+    T             w[],
+    integer       iw[],
+    integer       info[20],
+    T             rinfo[10]
   );
 
   template <>
   inline
   void
   ma48b<single>(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & nz,
-    integer const & job,
-    integer const & la,
-    single          a[],
-    integer         irn[],
-    integer         jcn[],
-    integer const   keep[],
-    single  const   cntl[10],
-    integer const   icntl[20],
-    single          w[],
-    integer         iw[],
-    integer         info[20],
-    single          rinfo[10]
+    integer       nrow,
+    integer       ncol,
+    integer       nz,
+    integer       job,
+    integer       la,
+    single        a[],
+    integer       irn[],
+    integer       jcn[],
+    integer const keep[],
+    single  const cntl[10],
+    integer const icntl[20],
+    single        w[],
+    integer       iw[],
+    integer       info[20],
+    single        rinfo[10]
   ) {
     HSL_F77NAME(ma48b)(
       &nrow, &ncol, &nz, &job, &la,
@@ -643,21 +643,21 @@ namespace HSL {
   inline
   void
   ma48b<real>(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & nz,
-    integer const & job,
-    integer const & la,
-    real            a[],
-    integer         irn[],
-    integer         jcn[],
-    integer const   keep[],
-    real    const   cntl[10],
-    integer const   icntl[20],
-    real            w[],
-    integer         iw[],
-    integer         info[20],
-    real            rinfo[10]
+    integer       nrow,
+    integer       ncol,
+    integer       nz,
+    integer       job,
+    integer       la,
+    real          a[],
+    integer       irn[],
+    integer       jcn[],
+    integer const keep[],
+    real    const cntl[10],
+    integer const icntl[20],
+    real          w[],
+    integer       iw[],
+    integer       info[20],
+    real          rinfo[10]
   ) {
     HSL_F77NAME(ma48bd)(
       &nrow, &ncol, &nz, &job, &la,
@@ -668,44 +668,44 @@ namespace HSL {
   template <typename T>
   void
   ma48c(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & itrans,
-    integer const & job,
-    integer const & la,
-    T       const   a[],
-    integer const   irn[],
-    integer const   keep[],
-    T       const   cntl[10],
-    integer const   icntl[20],
-    T       const   rhs[],
-    T               x[],
-    T               errors[3],
-    T       const   w[],
-    integer const   iw[],
-    integer         info[20]
+    integer       nrow,
+    integer       ncol,
+    integer       itrans,
+    integer       job,
+    integer       la,
+    T       const a[],
+    integer const irn[],
+    integer const keep[],
+    T       const cntl[10],
+    integer const icntl[20],
+    T       const rhs[],
+    T             x[],
+    T             errors[3],
+    T       const w[],
+    integer const iw[],
+    integer       info[20]
   );
 
   template <>
   inline
   void
   ma48c<single>(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & itrans,
-    integer const & job,
-    integer const & la,
-    single  const   a[],
-    integer const   irn[],
-    integer const   keep[],
-    single  const   cntl[10],
-    integer const   icntl[20],
-    single  const   rhs[],
-    single          x[],
-    single          errors[3],
-    single  const   w[],
-    integer const   iw[],
-    integer         info[20]
+    integer       nrow,
+    integer       ncol,
+    integer       itrans,
+    integer       job,
+    integer       la,
+    single  const a[],
+    integer const irn[],
+    integer const keep[],
+    single  const cntl[10],
+    integer const icntl[20],
+    single  const rhs[],
+    single        x[],
+    single        errors[3],
+    single  const w[],
+    integer const iw[],
+    integer       info[20]
   ) {
     HSL_F77NAME(ma48c)(
       &nrow, &ncol, &itrans, &job, &la,
@@ -718,22 +718,22 @@ namespace HSL {
   inline
   void
   ma48c<real>(
-    integer const & nrow,
-    integer const & ncol,
-    integer const & itrans,
-    integer const & job,
-    integer const & la,
-    real    const   a[],
-    integer const   irn[],
-    integer const   keep[],
-    real    const   cntl[10],
-    integer const   icntl[20],
-    real    const   rhs[],
-    real            x[],
-    real            errors[3],
-    real    const   w[],
-    integer const   iw[],
-    integer         info[20]
+    integer       nrow,
+    integer       ncol,
+    integer       itrans,
+    integer       job,
+    integer       la,
+    real    const a[],
+    integer const irn[],
+    integer const keep[],
+    real    const cntl[10],
+    integer const icntl[20],
+    real    const rhs[],
+    real          x[],
+    real          errors[3],
+    real    const w[],
+    integer const iw[],
+    integer       info[20]
   ) {
     HSL_F77NAME(ma48cd)(
       &nrow, &ncol, &itrans, &job, &la,
@@ -1192,20 +1192,20 @@ namespace HSL {
   inline
   void
   ma57b<single>(
-    integer         _n,
-    integer         _nz,
-    single const _a[],
-    single       _fact[],
-    integer         _lfact,
-    integer         _ifact[],
-    integer         _lifact,
-    integer         _lkeep,
-    integer const   _keep[],
-    integer         _iw[],
-    integer const   _icntl[20],
-    single const _cntl[5],
-    integer         _info[40],
-    single       _rinfo[20]
+    integer       _n,
+    integer       _nz,
+    single  const _a[],
+    single        _fact[],
+    integer       _lfact,
+    integer       _ifact[],
+    integer       _lifact,
+    integer       _lkeep,
+    integer const _keep[],
+    integer       _iw[],
+    integer const _icntl[20],
+    single  const _cntl[5],
+    integer       _info[40],
+    single        _rinfo[20]
   ) {
     HSL::HSL_F77NAME(ma57b)(
       &_n, &_nz, _a, _fact, &_lfact, _ifact, &_lifact, &_lkeep, _keep,

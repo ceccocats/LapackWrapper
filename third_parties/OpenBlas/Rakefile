@@ -1,6 +1,14 @@
 require "rake"
 require "../common.rb"
 
+desc "install locally OpenBlas for Linux (do nothing)"
+task :install_linux do
+end
+
+desc "install locally OpenBlas for OSX (do nothing)"
+task :install_osx do
+end
+
 desc "install locally OpenBlas for Windows"
 task :install_win do
   bits = "x64"
@@ -12,5 +20,11 @@ task :install_win do
   Dir[bits+'/include/*.h'].each{ |f| FileUtils.cp(f,'../../lib3rd/include/openblas/' + bits + '/'+File.basename(f)) }
 end
 
-task :clean do
+task :clean_linux do
+end
+
+task :clean_osx do
+end
+
+task :clean_windows do
 end
