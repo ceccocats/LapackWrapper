@@ -301,7 +301,7 @@
       #include "../openblas/lapacke.h"
     #else
       // must use subdirectory to avoid conflict with atlas/lapack...
-      #include <openblas/cblas.h>
+      #include <cblas.h>
       #include <lapacke.h>
     #endif
   #else
