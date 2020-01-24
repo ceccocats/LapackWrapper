@@ -133,6 +133,8 @@ tests: all_libs $(OBJS_TESTS)
 	$(CXX) $(INC) $(DEFS) $(CXXFLAGS) -o bin/test4-BFGS                src_tests/test4-BFGS.o                 $(ALL_LIBS) $(LIBSGCC)
 	$(CXX) $(INC) $(DEFS) $(CXXFLAGS) -o bin/test5-BLOCKTRID           src_tests/test5-BLOCKTRID.o            $(ALL_LIBS) $(LIBSGCC)
 	$(CXX) $(INC) $(DEFS) $(CXXFLAGS) -o bin/test6-EIGS                src_tests/test6-EIGS.o                 $(ALL_LIBS) $(LIBSGCC)
+    # cuda example
+	$(CXX) $(INC) $(DEFS) $(CXXFLAGS) -o bin/test2-Timing_cuda         src_tests/test2-Timing_cuda.cc               $(ALL_LIBS) $(LIBSGCC) -I /usr/local/cuda/include -L /usr/local/cuda/lib64/ -lcudart -lcublas
 
 .cc.o:
 	$(CXX) $(INC) $(CXXFLAGS) $(DEFS) -c $< -o $@
